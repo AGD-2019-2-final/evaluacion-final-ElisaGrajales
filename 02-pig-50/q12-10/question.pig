@@ -33,3 +33,8 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+w = FILTER u BY LOWER(SUBSTRING($2,0,1)) IN ('d','e','f','g','h','i','j','k');
+z = FOREACH w GENERATE $2;--CONCAT($0,',',$1,',',$2);
+DUMP z;
+store z into 'output';
+fs -copyToLocal output

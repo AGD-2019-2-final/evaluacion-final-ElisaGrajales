@@ -29,4 +29,10 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+w = FOREACH u GENERATE $3,ToDate($3,'yyyy-MM-dd');
+z = FOREACH w GENERATE ToString($1,'yyyy'),ToString($1,'yy');
+DUMP z;
+DUMP z;
+store z into 'output';
+fs -copyToLocal output
 

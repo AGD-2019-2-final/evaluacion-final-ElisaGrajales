@@ -6,11 +6,12 @@
 -- 
 -- Escriba el código equivalente a la siguiente consulta SQL.
 -- 
---    SELECT 
---        firstname, color 
+--    SELECT
+--        firstname,
+--        color
 --    FROM 
 --        u
---    WHERE color IN ('blue','black');
+--    WHERE color = 'blue' OR firstname LIKE 'K%';
 -- 
 -- Escriba el resultado a la carpeta `output` del directorio actual.
 -- 
@@ -26,4 +27,9 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+w = FILTER u BY $4 == 'blue' OR $1 MATCHES '.*K.*';
+z = FOREACH w GENERATE $1,$4;
+DUMP z;
+store z into 'output';
+fs -copyToLocal output
 

@@ -27,3 +27,9 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+w = FILTER u BY $4 == 'blue' OR $1 MATCHES '.*K.*';
+z = FOREACH w GENERATE $1,$4;
+DUMP z;
+store z into 'output';
+fs -copyToLocal output
+

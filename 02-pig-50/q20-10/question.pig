@@ -12,7 +12,7 @@
 --    FROM 
 --        u 
 --    WHERE 
---       color REGEXP '^[^b]';
+--        color REGEXP '^b';
 -- 
 -- Escriba el resultado a la carpeta `output` del directorio actual.
 -- 
@@ -25,6 +25,11 @@ u = LOAD 'data.csv' USING PigStorage(',')
         birthday:CHARARRAY, 
         color:CHARARRAY, 
         quantity:INT);
---
+--        
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+w = FOREACH u GENERATE firstname,color;
+z = FILTER w BY STARTSWITH(color,'b');
+DUMP z;
+store z into 'output';
+fs -copyToLocal output

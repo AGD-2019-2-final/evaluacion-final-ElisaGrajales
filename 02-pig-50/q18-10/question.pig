@@ -27,3 +27,8 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+w = FOREACH u GENERATE $1, $4;
+z = FILTER w BY NOT ($1== 'blue' OR $1=='black');
+DUMP z;
+store z into 'output';
+fs -copyToLocal output

@@ -26,3 +26,9 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+w = FOREACH u GENERATE $2,SIZE($2);
+z = ORDER w BY $1 DESC, $0;
+t = LIMIT z 5;
+DUMP t;
+store t into 'output';
+fs -copyToLocal output

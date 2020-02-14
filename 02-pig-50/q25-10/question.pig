@@ -26,3 +26,7 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+w = FOREACH u GENERATE INDEXOF($1,'a',1);
+DUMP w;
+store w into 'output';
+fs -copyToLocal output

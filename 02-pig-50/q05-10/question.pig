@@ -12,3 +12,15 @@ fs -rm -f -r output;
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
 
+fs -put data.tsv
+Tabla = LOAD 'data.tsv' USING PigStorage()
+    AS (Letra:CHARARRAY,
+        Minuscula:CHARARRAY,
+        Combinado:CHARARRAY);
+Col2 = FOREACH Tabla GENERATE $1;
+letters = FOREACH Col2 GENERATE FLATTEN (TOKENIZE(Minuscula)) AS Letras;
+grouped = GROUP letters BY Letras;
+lettercount = FOREACH grouped GENERATE group, COUNT(letters);
+DUMP lettercount;
+store lettercount into 'output';
+fs -copyToLocal output

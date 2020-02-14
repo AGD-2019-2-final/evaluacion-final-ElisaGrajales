@@ -28,4 +28,9 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+w = FOREACH u GENERATE $1, $4;
+z = FILTER w BY ($1 MATCHES '.*n');
+DUMP z;
+store z into 'output';
+fs -copyToLocal output
 
